@@ -46,6 +46,7 @@ namespace Cadastro.Controllers
        [HttpGet("{id}")]
         public IActionResult Status(Guid id){
             PedidoDTOResponse pedidoResponse = new PedidoDTOResponse();
+            List<ItensPedidoDTOResponse> itensPedido = new List<ItensPedidoDTOResponse>();
 
             var pedido = _pedidoRepository.GetById(id);
             if(pedido == null){
@@ -54,7 +55,20 @@ namespace Cadastro.Controllers
 
             pedidoResponse.FormaPagamento = pedido.FormaPagamento;
             pedidoResponse.Id = pedido.Id;
+            pedidoResponse.Status = pedido.Status;
             pedidoResponse.ValorTotal = pedido.ValorTotal;
+            foreach (var item in pedido.Itens)
+            {
+                ItensPedidoDTOResponse itemPedido = new ItensPedidoDTOResponse();
+                itemPedido.Id = item.Id;
+                itemPedido.Descricao = item.Descricao;
+                itemPedido.Quantidade = item.Quantidade;
+                itemPedido.Valor = item.Valor;
+
+                itensPedido.Add(itemPedido);
+            }
+
+            pedidoResponse.Itens = itensPedido;
 
             return Ok(pedidoResponse);
         }
@@ -69,9 +83,25 @@ namespace Cadastro.Controllers
                 foreach (var pedido in pedidos)
                 {
                     PedidoDTOResponse pedidoResponse = new PedidoDTOResponse();
+                    List<ItensPedidoDTOResponse> itensPedido = new List<ItensPedidoDTOResponse>();
                     pedidoResponse.FormaPagamento = pedido.FormaPagamento;
                     pedidoResponse.Id = pedido.Id;
+                    pedidoResponse.Status = pedido.Status;
                     pedidoResponse.ValorTotal = pedido.ValorTotal;
+
+                    foreach (var item in pedido.Itens)
+                    {
+                        ItensPedidoDTOResponse itemPedido = new ItensPedidoDTOResponse();
+                        itemPedido.Id = item.Id;
+                        itemPedido.Descricao = item.Descricao;
+                        itemPedido.Quantidade = item.Quantidade;
+                        itemPedido.Valor = item.Valor;
+
+                        itensPedido.Add(itemPedido);
+                    }
+
+                    pedidoResponse.Itens = itensPedido;
+
                     pedidosResponse.Add(pedidoResponse);
                 }
 

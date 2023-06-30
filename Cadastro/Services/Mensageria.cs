@@ -1,12 +1,14 @@
 using System.Text;
+using System.Text.Json;
 using RabbitMQ.Client;
+using Cadastro.Model;
 
 namespace Cadastro.Services
 {
     public class Mensageria : IMensageria
     {
         private const string NOME_FILA = "PEDIDO_CRIADO";
-        public void Enviar(string message)
+        public void Enviar(PedidoModel pedido)
         {
             var factory = new ConnectionFactory { HostName = "localhost" };
             using var connection = factory.CreateConnection();
@@ -14,7 +16,9 @@ namespace Cadastro.Services
             
             CriarFila(channel);
 
-            var body = Encoding.UTF8.GetBytes(message);
+            string mensagemConvertida = JsonSerializer.Serialize(new { pedido.Id, pedido.CreateAt, pedido.FormaPagamento, pedido.ValorTotal });
+
+            var body = Encoding.UTF8.GetBytes(mensagemConvertida);
 
             Publish(channel, body);
 

@@ -1,6 +1,7 @@
 using Cadastro.Context;
 using Cadastro.Model;
 using Cadastro.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cadastro.Repositories
 {
@@ -19,7 +20,7 @@ namespace Cadastro.Repositories
         {
             _cadastroContext.Add(entity);
             SaveChanges();
-            _mensageria.Enviar(entity.Id.ToString());
+            _mensageria.Enviar(entity);
         }
 
         public void Delete(Guid id)
@@ -29,12 +30,12 @@ namespace Cadastro.Repositories
 
         public IEnumerable<PedidoModel> GetAll()
         {
-            return _cadastroContext.Pedidos;
+            return _cadastroContext.Pedidos.Include(p => p.Itens);
         }
 
         public PedidoModel GetById(Guid id)
         {
-            return _cadastroContext.Pedidos.FirstOrDefault(p => p.Id == id);
+            return _cadastroContext.Pedidos.Include(p => p.Itens).FirstOrDefault(p => p.Id == id);
         }
 
         public void SaveChanges()

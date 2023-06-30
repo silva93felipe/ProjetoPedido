@@ -9,7 +9,8 @@ namespace Cadastro.DTO
     public class PedidoDTOResponse
     {
         public Guid Id { get; set; }
-        public ICollection<ItensPedidoDTORequest> Itens { get; }
+        public ICollection<ItensPedidoDTOResponse> Itens { get; set; }
+        public StatusPedidoEnum Status {get;  set;}
         public double ValorTotal { get; set; }
         public FormaPagamentoEnum FormaPagamento { get; set; } 
         

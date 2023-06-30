@@ -17,6 +17,7 @@ namespace Cadastro.Model
         {
             Itens = new List<ItensPedido>();
             Status = StatusPedidoEnum.CRIADO;
+            CalcularValorTotal();
         }
         public PedidoModel(FormaPagamentoEnum formaPagamento): this()
         {
