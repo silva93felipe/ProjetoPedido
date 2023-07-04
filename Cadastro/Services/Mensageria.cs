@@ -21,7 +21,6 @@ namespace Cadastro.Services
             var body = Encoding.UTF8.GetBytes(mensagemConvertida);
 
             Publish(channel, body);
-
         }
 
         private void Publish(IModel channel, byte[] body){
@@ -40,7 +39,5 @@ namespace Cadastro.Services
                     arguments: null
             );
         }
-
-
     }
 }

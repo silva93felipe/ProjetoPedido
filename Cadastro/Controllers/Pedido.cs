@@ -38,6 +38,7 @@ namespace Cadastro.Controllers
             }
 
             pedidoModel.FormaPagamento = pedido.FormaPagamento;
+            pedidoModel.CalcularValorTotal();
 
             _pedidoRepository.Create(pedidoModel);
             return Ok();

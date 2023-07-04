@@ -1,3 +1,9 @@
+using Cadastro.Services;
+using Financeiro.Context;
+using Financeiro.Repositories;
+using Financeiro.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<FinanceiroContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("Tec")));
+builder.Services.AddTransient<IMensageria, Mensageria>();
+builder.Services.AddScoped<IPagamentoRepository, PagamentoRepository>();
 
 var app = builder.Build();
 
