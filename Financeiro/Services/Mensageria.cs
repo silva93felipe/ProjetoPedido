@@ -13,12 +13,6 @@ namespace Cadastro.Services
         private const string NOME_FILA_CRIACAO_PEDIDO = "PEDIDO_CRIADO";
         private const string NOME_FILA_PAGAMENTO = "PAGAMENTO_APROVADO";
 
-        private readonly IPagamentoRepository _pagamentoRepository;
-        public Mensageria(IPagamentoRepository pagamentoRepository)
-        {
-            _pagamentoRepository = pagamentoRepository;   
-        }
-
         public void Enviar(Pagamento pagamento)
         {
             var factory = new ConnectionFactory { HostName = "localhost" };
@@ -62,16 +56,7 @@ namespace Cadastro.Services
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                var pedido = JsonSerializer.Deserialize<PedidoReceiveMessage>(message);
-                var pagamentoNew = new Pagamento();
-                pagamentoNew.TipoPagamento = pedido.FormaPamento;
-                pagamentoNew.PedidoId = pedido.Id;
-                pagamentoNew.Parcelas = 1;
-                pagamentoNew.ValorTotal = pedido.ValorTotal;
-
-                _pagamentoRepository.Create(pagamentoNew);
-
-                Console.WriteLine($" [x] Received {message}");
+                    Console.WriteLine($" [x] Received {message}");
             };
 
             channel.BasicConsume(queue: NOME_FILA_CRIACAO_PEDIDO,
@@ -79,12 +64,4 @@ namespace Cadastro.Services
                                 consumer: consumer);
         }
     }
-}
-
-
-class PedidoReceiveMessage{
-    public Guid Id { get; set; }
-    public DateTime CreateAt { get; set; }
-    public int FormaPamento {get; set;}
-    public double ValorTotal { get; set; }
 }

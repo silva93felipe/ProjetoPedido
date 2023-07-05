@@ -1,4 +1,5 @@
 using Cadastro.Services;
+using Financeiro.Consumer;
 using Financeiro.Context;
 using Financeiro.Repositories;
 using Financeiro.Services;
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FinanceiroContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("Tec")));
 builder.Services.AddTransient<IMensageria, Mensageria>();
 builder.Services.AddScoped<IPagamentoRepository, PagamentoRepository>();
+builder.Services.AddHostedService<ProcessMessageConsumer>();
 
 var app = builder.Build();
 
