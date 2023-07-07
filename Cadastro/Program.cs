@@ -15,6 +15,8 @@ builder.Services.AddSwaggerGen();
 // builder.Services.AddDbContext<CadastroContext>(opt => opt.UseInMemoryDatabase("TestInMemory"));
 builder.Services.AddDbContext<CadastroContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("Tec")));
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddScoped<IGerarFinanceiro, GerarFinanceiro>();
+
 builder.Services.AddScoped<IMensageria, Mensageria>();
 
 
@@ -27,7 +29,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+app.UseCors();
 
 app.UseAuthorization();
 

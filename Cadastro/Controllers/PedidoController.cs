@@ -6,18 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 using Cadastro.Repositories;
 using Cadastro.Model;
 using Cadastro.DTO;
+using Cadastro.Services;
 
 namespace Cadastro.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class Pedido : ControllerBase
+    public class PedidoController : ControllerBase
     {   
         private readonly IPedidoRepository _pedidoRepository;
+        private readonly IGerarFinanceiro _gerarFinanceiro;
 
-        public Pedido(IPedidoRepository pedidoRepository)
+        public PedidoController(IPedidoRepository pedidoRepository, IGerarFinanceiro gerarFinanceiro)
         {
             _pedidoRepository = pedidoRepository;
+            _gerarFinanceiro = gerarFinanceiro;
         }
 
         [HttpPost]
@@ -40,8 +43,22 @@ namespace Cadastro.Controllers
             pedidoModel.FormaPagamento = pedido.FormaPagamento;
             pedidoModel.CalcularValorTotal();
 
-            _pedidoRepository.Create(pedidoModel);
-            return Ok();
+            try
+            {
+                _pedidoRepository.Create(pedidoModel);
+                
+                _gerarFinanceiro.StatusPagamento();
+
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest();
+                
+            }
+
         }
 
        [HttpGet("{id}")]
