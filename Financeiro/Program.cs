@@ -1,5 +1,4 @@
 using Cadastro.Services;
-using Financeiro.Consumer;
 using Financeiro.Context;
 using Financeiro.Repositories;
 using Financeiro.Services;

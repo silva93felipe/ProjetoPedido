@@ -7,6 +7,7 @@ using Cadastro.Repositories;
 using Cadastro.Model;
 using Cadastro.DTO;
 using Cadastro.Services;
+using Cadastro.Enum;
 
 namespace Cadastro.Controllers
 {
@@ -24,7 +25,7 @@ namespace Cadastro.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create( PedidoDTORequest pedido)
+        public async Task<IActionResult> Create( PedidoDTORequest pedido)
         {
 
             PedidoModel pedidoModel = new PedidoModel();
@@ -47,18 +48,19 @@ namespace Cadastro.Controllers
             {
                 _pedidoRepository.Create(pedidoModel);
                 
-                _gerarFinanceiro.StatusPagamento();
-
+                var pagamentoAprovado = await _gerarFinanceiro.GerarPagamento(pedidoModel);
+                
+                if(pagamentoAprovado) {
+                    pedidoModel.AtualizarStatusPedido();
+                    _pedidoRepository.SaveChanges();
+                }
 
                 return Ok();
             }
             catch (Exception e)
             {
-
                 return BadRequest();
-                
             }
-
         }
 
        [HttpGet("{id}")]

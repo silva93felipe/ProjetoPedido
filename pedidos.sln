@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadastro", "Cadastro\Cadast
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financeiro", "Financeiro\Financeiro.csproj", "{39C30372-6924-468C-862A-B36034E77C20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entrega", "Entrega\Entrega.csproj", "{85C6D32F-240B-4FB9-90FB-BA7B05A92816}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{39C30372-6924-468C-862A-B36034E77C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39C30372-6924-468C-862A-B36034E77C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39C30372-6924-468C-862A-B36034E77C20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85C6D32F-240B-4FB9-90FB-BA7B05A92816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85C6D32F-240B-4FB9-90FB-BA7B05A92816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85C6D32F-240B-4FB9-90FB-BA7B05A92816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85C6D32F-240B-4FB9-90FB-BA7B05A92816}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -5,30 +5,42 @@ using System.Threading.Tasks;
 using Cadastro.Utils;
 using System.Text.Json;
 using System.Text;
+using Cadastro.Model;
 
 namespace Cadastro.Services
 {
     public class GerarFinanceiro : IGerarFinanceiro
     {
         
-        public async Task Gerar(string message)
+        public async Task<bool> GerarPagamento(PedidoModel pedido)
         {
 
-             using var client = new HttpClient();
-            var json = JsonSerializer.Serialize(message);
+            using var client = new HttpClient();
+            var json = JsonSerializer.Serialize(pedido);
 
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var result = await client.PostAsync(UriInternas.SERVICO_FINANCERIO, data);            
+           var result = await client.PostAsync(UriInternas.SERVICO_FINANCERIO, data);            
 
+            if(result.IsSuccessStatusCode)
+            {
+                var dado = result.Content.ReadAsStringAsync();
+
+                return dado.Result == "PAGAMENTO_APROVADO";
+
+            }
+
+            return false;
         }
 
-        public async Task StatusPagamento()
+        public async Task<int> StatusPagamento(Guid pedidoId)
         {
-             using var client = new HttpClient();
-            var result = await client.GetAsync("http://localhost:5251/api/Financeiro/statuspagamento");
+            using var client = new HttpClient();
+            var result = await client.GetAsync(UriInternas.SERVICO_FINANCERIO + "statuspagamento");
 
-            Console.WriteLine(result.StatusCode);
+
+            //TODO 
+            return 0;
         }
     }
 }

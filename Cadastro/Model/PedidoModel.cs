@@ -24,6 +24,10 @@ namespace Cadastro.Model
             FormaPagamento = formaPagamento;
         }
 
+        public void AtualizarStatusPedido(){
+            Status = StatusPedidoEnum.ENTREGA;
+        }
+
         public double CalcularValorTotal(){
             ValorTotal = Itens.Sum(i => i.ValorTotal());
             return ValorTotal;

@@ -19,6 +19,11 @@ namespace Financeiro.Model
             StatusPagamento = StatusPagamentoEnum.PENDENTE;
         }
 
+        public void PagamentoAprovado()
+        {
+            StatusPagamento = StatusPagamentoEnum.APROVADO;
+        }
+
 
     }
 }

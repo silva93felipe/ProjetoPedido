@@ -8,20 +8,17 @@ namespace Financeiro.Repositories
 {
     public class PagamentoRepository : IPagamentoRepository
     {
-        private readonly IMensageria _mensageria;
         private readonly FinanceiroContext _financeiroContext;
 
-        public PagamentoRepository(FinanceiroContext financeiroContext, IMensageria mensageria)
+        public PagamentoRepository(FinanceiroContext financeiroContext)
         {
             _financeiroContext = financeiroContext;
-            _mensageria = mensageria;
         }
 
         public void Create(Pagamento entity)
         {
             _financeiroContext.Add(entity);
             SaveChanges();
-            _mensageria.Enviar(entity);
         }
 
         public void Delete(Guid id)
